@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AyurNutrient | Your Wellness Journey</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Login Page -->
+    <main id="loginPage" class="login-layout">
+      <section class="login-card">
+        <div class="logo">A</div>
+        <p class="eyebrow">PERSONALIZED NUTRITION</p>
+        <h1>Welcome to AyurNutrient</h1>
+        <p class="muted">
+          Your personal space for diet plans, health history and nutrition
+          guidance.
+        </p>
+
+        <form id="loginForm">
+          <label for="email">Email address</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            required
+          />
+
+          <label for="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="Enter password"
+            required
+          />
+
+          <button type="submit" class="primary-btn">
+            Log in to your account
+          </button>
+        </form>
+
+        <p id="loginMessage" class="message"></p>
+        <p class="small-note">
+          Prototype only: this login does not securely authenticate users.
+        </p>
+      </section>
+
+      <aside class="welcome-panel">
+        <span class="pill">YOUR WELLNESS JOURNEY</span>
+        <h2>Small steps.<br />Healthier habits.</h2>
+        <p>
+          Organize your nutrition journey with personalized diet plans, recipe
+          ideas and weekly progress reviews.
+        </p>
+        <div class="welcome-stats">
+          <div><strong>7 Days</strong><span>Diet planning</span></div>
+          <div><strong>Weekly</strong><span>Progress review</span></div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Patient Dashboard -->
+    <main id="dashboardPage" class="dashboard hidden">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="logo small-logo">A</span> AyurNutrient
+        </div>
+        <p class="nav-heading">PATIENT MENU</p>
+
+        <button class="nav-link active" data-section="overview">
+          ⌂ Overview
+        </button>
+        <button class="nav-link" data-section="diet">▤ My Diet Plan</button>
+        <button class="nav-link" data-section="records">
+          ▣ Medical Records
+        </button>
+        <button class="nav-link" data-section="recipes">♧ Recipes</button>
+        <button class="nav-link" data-section="consultations">
+          ♡ Consultations
+        </button>
+
+        <button id="logoutButton" class="nav-link logout">↪ Log out</button>
+      </aside>
+
+      <section class="dashboard-main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">PATIENT WORKSPACE</p>
+            <h1 id="pageTitle">Overview</h1>
+          </div>
+          <div class="user-chip">
+            <div class="avatar">P</div>
+            <div>
+              <strong id="patientName">Patient</strong
+              ><span>Patient account</span>
+            </div>
+          </div>
+        </header>
+
+        <section id="overview" class="page-section">
+          <div class="hero">
+            <p>YOUR PERSONAL NUTRITION SPACE</p>
+            <h2>Hello, <span id="welcomeName">Patient</span>!</h2>
+            <p>Let's take a positive step towards your wellness today.</p>
+          </div>
+
+          <div class="stats">
+            <article class="stat-card">
+              <span class="stat-icon">▤</span>
+              <p>Diet Plan</p>
+              <h3>7-Day Plan</h3>
+              <span class="tag">Ready to personalize</span>
+            </article>
+            <article class="stat-card">
+              <span class="stat-icon purple">♧</span>
+              <p>Recipe Ideas</p>
+              <h3>Coming Soon</h3>
+              <span class="muted">Based on your diet plan</span>
+            </article>
+            <article class="stat-card">
+              <span class="stat-icon orange">◷</span>
+              <p>Weekly Review</p>
+              <h3>Progress Check</h3>
+              <span class="muted">Feedback and updates</span>
+            </article>
+          </div>
+
+          <div class="content-grid">
+            <article class="panel">
+              <p class="eyebrow">GET STARTED</p>
+              <h3>Your Health History</h3>
+              <p class="muted">
+                Choose a previous medical record or diet plan to test the upload
+                interface.
+              </p>
+              <label for="recordFile" class="upload-box">
+                <span class="upload-symbol">↑</span>
+                <strong>Choose a file</strong>
+                <span>PDF, JPG or PNG</span>
+                <input
+                  id="recordFile"
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png"
+                />
+              </label>
+              <p id="fileMessage" class="message"></p>
+            </article>
+
+            <article class="panel">
+              <p class="eyebrow">YOUR NEXT STEPS</p>
+              <h3>Nutrition Journey</h3>
+              <div class="step-row">
+                <span>1</span>
+                <div>
+                  <strong>Complete your profile</strong>
+                  <p>Add your health and dietary details.</p>
+                </div>
+              </div>
+              <div class="step-row">
+                <span>2</span>
+                <div>
+                  <strong>Review your diet plan</strong>
+                  <p>Explore your weekly nutrition plan.</p>
+                </div>
+              </div>
+              <div class="step-row">
+                <span>3</span>
+                <div>
+                  <strong>Share weekly feedback</strong>
+                  <p>Help guide future plan updates.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+          <p class="disclaimer">
+            Demo content only. No personalized medical recommendations are
+            generated yet.
+          </p>
+        </section>
+
+        <section id="diet" class="page-section hidden">
+          <div class="panel">
+            <p class="eyebrow">PERSONALIZED NUTRITION</p>
+            <h2>My 7-Day Diet Plan</h2>
+            <p class="muted">
+              Your personalized diet plan will appear here after we build the
+              patient profile and nutrition modules.
+            </p>
+            <div class="placeholder">No diet plan generated yet.</div>
+          </div>
+        </section>
+
+        <section id="records" class="page-section hidden">
+          <div class="panel">
+            <p class="eyebrow">PATIENT HISTORY</p>
+            <h2>Medical Records</h2>
+            <p class="muted">
+              Your previous medical records and diet plans will be listed here
+              when secure storage is implemented.
+            </p>
+            <div class="placeholder">No records stored in this prototype.</div>
+          </div>
+        </section>
+
+        <section id="recipes" class="page-section hidden">
+          <div class="panel">
+            <p class="eyebrow">FOOD INSPIRATION</p>
+            <h2>Recipe Suggestions</h2>
+            <div class="recipe-grid">
+              <article class="recipe-card">
+                <span>🥣</span>
+                <h3>Oat Bowl</h3>
+                <p>A flexible breakfast idea.</p>
+              </article>
+              <article class="recipe-card">
+                <span>🥗</span>
+                <h3>Vegetable Bowl</h3>
+                <p>A colourful meal idea.</p>
+              </article>
+              <article class="recipe-card">
+                <span>🍲</span>
+                <h3>Lentil Soup</h3>
+                <p>A home-style recipe idea.</p>
+              </article>
+            </div>
+            <p class="disclaimer">
+              These are examples, not personalized dietary advice.
+            </p>
+          </div>
+        </section>
+
+        <section id="consultations" class="page-section hidden">
+          <div class="panel">
+            <p class="eyebrow">PROFESSIONAL SUPPORT</p>
+            <h2>Consultations</h2>
+            <p class="muted">
+              Previous consultation dates and dietitian notes will appear here
+              after database integration.
+            </p>
+            <div class="placeholder">No consultations available yet.</div>
+          </div>
+        </section>
+
+        <footer>AyurNutrient · Academic project prototype</footer>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
