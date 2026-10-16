@@ -260,9 +260,27 @@
                   <h3 id="dietResultTitle">Your 7-Day Meal Plan</h3>
                   <p id="dietResultDetails"></p>
                 </div>
-                <button type="button" id="printDietPlan" class="print-button">
-                  Print plan
-                </button>
+
+                <div class="diet-actions">
+                  <button
+                    type="button"
+                    id="saveDietPlan"
+                    class="generate-button"
+                  >
+                    Save Diet Plan
+                  </button>
+                  <button type="button" id="printDietPlan" class="print-button">
+                    Print plan
+                  </button>
+                </div>
+
+                <div class="diet-history">
+                  <h3>Previous Diet Plans</h3>
+                  <p class="history-description">
+                    Your previously saved sample plans will appear here.
+                  </p>
+                  <div id="dietHistoryList" class="diet-history-list"></div>
+                </div>
               </div>
 
               <div id="dietPlanGrid" class="diet-plan-grid"></div>

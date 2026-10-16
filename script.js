@@ -375,4 +375,110 @@ if (dietForm) {
     ?.addEventListener("click", function () {
       window.print();
     });
+
+  // Save and restore generated diet plans in this browser.
+
+  const saveDietButton = document.getElementById("saveDietPlan");
+  const historyList = document.getElementById("dietHistoryList");
+  const historyStorageKey = "ayurnutrient_saved_diet_plans_v1";
+
+  function getSavedDietPlans() {
+    try {
+      const stored = JSON.parse(
+        localStorage.getItem(historyStorageKey) || "[]",
+      );
+
+      return Array.isArray(stored) ? stored : [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function renderDietHistory() {
+    const plans = getSavedDietPlans();
+    historyList.replaceChildren();
+
+    if (plans.length === 0) {
+      const emptyMessage = document.createElement("p");
+      emptyMessage.className = "history-description";
+      emptyMessage.textContent =
+        "No saved plans yet. Generate a plan and click Save Diet Plan.";
+      historyList.appendChild(emptyMessage);
+      return;
+    }
+
+    plans.forEach(function (plan) {
+      const card = document.createElement("article");
+      card.className = "history-card";
+
+      const information = document.createElement("div");
+
+      const title = document.createElement("h4");
+      title.textContent = plan.title;
+
+      const details = document.createElement("p");
+      details.textContent = plan.details;
+
+      const date = document.createElement("p");
+      date.textContent = "Saved: " + plan.savedAt;
+
+      information.append(title, details, date);
+
+      const openButton = document.createElement("button");
+      openButton.type = "button";
+      openButton.textContent = "View plan";
+
+      openButton.addEventListener("click", function () {
+        document.getElementById("dietResultTitle").textContent = plan.title;
+        document.getElementById("dietResultDetails").textContent = plan.details;
+
+        // Restore the generated meal cards saved by this prototype.
+        document.getElementById("dietPlanGrid").innerHTML = plan.mealsHtml;
+        document.getElementById("dietResults").hidden = false;
+
+        document.getElementById("dietResults").scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      });
+
+      card.append(information, openButton);
+      historyList.appendChild(card);
+    });
+  }
+
+  saveDietButton.addEventListener("click", function () {
+    const results = document.getElementById("dietResults");
+
+    if (results.hidden) {
+      alert("Please generate a diet plan before saving it.");
+      return;
+    }
+
+    const plans = getSavedDietPlans();
+
+    const newPlan = {
+      id: Date.now(),
+      title: document.getElementById("dietResultTitle").textContent,
+      details: document.getElementById("dietResultDetails").textContent,
+      mealsHtml: document.getElementById("dietPlanGrid").innerHTML,
+      savedAt: new Date().toLocaleString(),
+    };
+
+    // Keep the newest saved plan first.
+    plans.unshift(newPlan);
+
+    try {
+      localStorage.setItem(historyStorageKey, JSON.stringify(plans));
+      renderDietHistory();
+      alert("Diet plan saved successfully!");
+    } catch (error) {
+      alert(
+        "Unable to save the plan. Your browser storage may be full or disabled.",
+      );
+    }
+  });
+
+  // Show saved plans when the page is opened or refreshed.
+  renderDietHistory();
 }

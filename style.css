@@ -704,3 +704,86 @@ footer {
     box-shadow: none;
   }
 }
+
+/* Save and view previous diet plans */
+
+.diet-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.diet-actions .generate-button {
+  width: auto;
+  flex: 1;
+  margin-top: 0;
+}
+
+.diet-history {
+  margin-top: 32px;
+}
+
+.diet-history h3 {
+  margin-bottom: 8px;
+  color: #203d30;
+}
+
+.history-description {
+  color: #718076;
+  font-size: 14px;
+}
+
+.diet-history-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.history-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #dfebe2;
+  border-radius: 12px;
+}
+
+.history-card h4 {
+  margin: 0 0 6px;
+  color: #26784b;
+}
+
+.history-card p {
+  margin: 0;
+  color: #718076;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.history-card button {
+  flex-shrink: 0;
+  padding: 9px 12px;
+  border: 1px solid #cddfd2;
+  border-radius: 8px;
+  background: #eff8f1;
+  color: #26784b;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .diet-actions {
+    flex-direction: column;
+  }
+
+  .diet-actions .generate-button {
+    width: 100%;
+  }
+
+  .history-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
