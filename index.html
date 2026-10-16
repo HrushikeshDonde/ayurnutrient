@@ -180,14 +180,98 @@
         </section>
 
         <section id="diet" class="page-section hidden">
-          <div class="panel">
-            <p class="eyebrow">PERSONALIZED NUTRITION</p>
-            <h2>My 7-Day Diet Plan</h2>
-            <p class="muted">
-              Your personalized diet plan will appear here after we build the
-              patient profile and nutrition modules.
-            </p>
-            <div class="placeholder">No diet plan generated yet.</div>
+          <div class="diet-generator">
+            <div class="diet-heading">
+              <div>
+                <p class="eyebrow">PERSONALIZED NUTRITION</p>
+                <h2>7-Day Diet Plan Generator</h2>
+                <p>
+                  Create a sample weekly meal plan based on patient preferences.
+                </p>
+              </div>
+              <span class="diet-icon">🌿</span>
+            </div>
+
+            <form id="dietForm" class="diet-form">
+              <div class="diet-fields">
+                <div class="field">
+                  <label for="patientAge">Patient age</label>
+                  <input
+                    id="patientAge"
+                    type="number"
+                    min="18"
+                    max="100"
+                    placeholder="e.g. 25"
+                    required
+                  />
+                </div>
+
+                <div class="field">
+                  <label for="dietPreference">Dietary preference</label>
+                  <select id="dietPreference" required>
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="vegan">Vegan</option>
+                    <option value="eggetarian">Eggetarian</option>
+                    <option value="nonvegetarian">Non-vegetarian</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="healthGoal">Health goal</label>
+                  <select id="healthGoal" required>
+                    <option value="balanced">Balanced eating</option>
+                    <option value="weight">Weight management</option>
+                    <option value="energy">Everyday energy</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="bodyType">Ayurvedic body type (optional)</label>
+                  <select id="bodyType">
+                    <option value="not-selected">
+                      Not sure / not selected
+                    </option>
+                    <option value="vata">Vata</option>
+                    <option value="pitta">Pitta</option>
+                    <option value="kapha">Kapha</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="generate-button">
+                ✨ Generate My Diet Plan
+              </button>
+
+              <p class="prototype-note">
+                Prototype demo: sample meals for presentation, not medical
+                advice.
+              </p>
+            </form>
+
+            <div
+              id="dietResults"
+              class="diet-results"
+              aria-live="polite"
+              hidden
+            >
+              <div class="diet-result-heading">
+                <div>
+                  <p class="eyebrow">YOUR WEEKLY PLAN</p>
+                  <h3 id="dietResultTitle">Your 7-Day Meal Plan</h3>
+                  <p id="dietResultDetails"></p>
+                </div>
+                <button type="button" id="printDietPlan" class="print-button">
+                  Print plan
+                </button>
+              </div>
+
+              <div id="dietPlanGrid" class="diet-plan-grid"></div>
+              <p class="prototype-note">
+                Portions, allergies, medical conditions and nutritional needs
+                have not been assessed. Consult a qualified dietitian for
+                individual guidance.
+              </p>
+            </div>
           </div>
         </section>
 
