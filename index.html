@@ -35,6 +35,12 @@
             required
           />
 
+          <label for="userRole">Login as</label>
+          <select id="userRole" required>
+            <option value="patient">Patient</option>
+            <option value="dietitian">Dietitian</option>
+          </select>
+
           <button type="submit" class="primary-btn">
             Log in to your account
           </button>
@@ -434,6 +440,254 @@
               This report contains only information available in the current
               prototype. Medical-record file contents are not analyzed.
             </p>
+          </div>
+        </section>
+
+        <footer>AyurNutrient · Academic project prototype</footer>
+      </section>
+    </main>
+
+    <!-- Dietitian Dashboard -->
+    <main id="dietitianDashboard" class="dashboard hidden">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="logo small-logo">A</span> AyurNutrient
+        </div>
+
+        <p class="nav-heading">DIETITIAN WORKSPACE</p>
+
+        <button
+          class="nav-link dietitian-nav active"
+          data-dietitian-section="dtOverview"
+        >
+          Overview
+        </button>
+        <button
+          class="nav-link dietitian-nav"
+          data-dietitian-section="dtPatients"
+        >
+          Patients
+        </button>
+        <button class="nav-link dietitian-nav" data-dietitian-section="dtPlans">
+          Diet Plans
+        </button>
+        <button
+          class="nav-link dietitian-nav"
+          data-dietitian-section="dtConsultations"
+        >
+          Consultations
+        </button>
+        <button
+          class="nav-link dietitian-nav"
+          data-dietitian-section="dtRecords"
+        >
+          Medical Records
+        </button>
+        <button
+          class="nav-link dietitian-nav"
+          data-dietitian-section="dtReports"
+        >
+          Reports
+        </button>
+
+        <button id="dietitianLogoutButton" class="nav-link logout">
+          Log out
+        </button>
+      </aside>
+
+      <section class="dashboard-main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">DIETITIAN WORKSPACE</p>
+            <h1 id="dietitianPageTitle">Overview</h1>
+          </div>
+          <div class="user-chip">
+            <div class="avatar">D</div>
+            <div>
+              <strong id="dietitianName">Dietitian</strong>
+              <span>Demo account</span>
+            </div>
+          </div>
+        </header>
+
+        <section id="dtOverview" class="dietitian-section">
+          <div class="hero">
+            <p>AYURNUTRIENT PROFESSIONAL WORKSPACE</p>
+            <h2>Welcome, <span id="dietitianWelcome">Dietitian</span>!</h2>
+            <p>
+              Review patient information and manage diet plans and
+              consultations.
+            </p>
+          </div>
+
+          <div class="stats">
+            <article class="stat-card">
+              <p>Demo Patients</p>
+              <h3 id="patientCount">3</h3>
+            </article>
+            <article class="stat-card">
+              <p>Saved Consultations</p>
+              <h3 id="consultationCount">0</h3>
+            </article>
+            <article class="stat-card">
+              <p>Available Records</p>
+              <h3 id="recordCount">3</h3>
+            </article>
+          </div>
+
+          <div class="panel">
+            <h3>Quick start</h3>
+            <p class="muted">
+              Choose Patients to review a demo patient or Consultations to
+              record a note.
+            </p>
+            <button
+              type="button"
+              class="generate-button"
+              data-open-dt="dtPatients"
+            >
+              View Patients
+            </button>
+          </div>
+
+          <p class="disclaimer">
+            Demo workspace with sample data. No real patient records are
+            connected.
+          </p>
+        </section>
+
+        <section id="dtPatients" class="dietitian-section hidden">
+          <div class="panel">
+            <p class="eyebrow">PATIENT MANAGEMENT</p>
+            <h2>Patients</h2>
+            <label for="dtPatientSelect">Select a demo patient</label>
+            <select id="dtPatientSelect">
+              <option value="p1">Aarav Sharma</option>
+              <option value="p2">Ananya Patil</option>
+              <option value="p3">Rohan Deshmukh</option>
+            </select>
+            <div id="dtPatientProfile" class="patient-profile"></div>
+          </div>
+        </section>
+
+        <section id="dtPlans" class="dietitian-section hidden">
+          <div class="panel">
+            <p class="eyebrow">DIET PLAN REVIEW</p>
+            <h2>Diet Plans</h2>
+            <label for="dtPlanPatient">Patient</label>
+            <select id="dtPlanPatient">
+              <option value="p1">Aarav Sharma</option>
+              <option value="p2">Ananya Patil</option>
+              <option value="p3">Rohan Deshmukh</option>
+            </select>
+            <label for="dtPlanNotes">Plan review / proposed changes</label>
+            <textarea
+              id="dtPlanNotes"
+              rows="5"
+              placeholder="Enter a demo plan review or proposed changes"
+            ></textarea>
+            <button type="button" id="dtSavePlan" class="generate-button">
+              Save Plan Review
+            </button>
+            <div id="dtPlanHistory" class="placeholder">
+              No plan reviews saved yet.
+            </div>
+            <p class="prototype-note">
+              This demo saves text locally. It does not generate a clinically
+              validated diet plan.
+            </p>
+          </div>
+        </section>
+
+        <section id="dtConsultations" class="dietitian-section hidden">
+          <div class="panel">
+            <p class="eyebrow">CONSULTATION MANAGEMENT</p>
+            <h2>Consultations</h2>
+            <label for="dtConsultPatient">Patient</label>
+            <select id="dtConsultPatient">
+              <option value="p1">Aarav Sharma</option>
+              <option value="p2">Ananya Patil</option>
+              <option value="p3">Rohan Deshmukh</option>
+            </select>
+            <label for="dtConsultNotes">Consultation notes</label>
+            <textarea
+              id="dtConsultNotes"
+              rows="5"
+              placeholder="Enter demo consultation notes"
+            ></textarea>
+            <button
+              type="button"
+              id="dtSaveConsultation"
+              class="generate-button"
+            >
+              Save Consultation
+            </button>
+            <div id="dtConsultationHistory" class="placeholder">
+              No consultations saved yet.
+            </div>
+          </div>
+        </section>
+
+        <section id="dtRecords" class="dietitian-section hidden">
+          <div class="panel">
+            <p class="eyebrow">PATIENT HISTORY</p>
+            <h2>Medical Records</h2>
+            <p class="muted">
+              Sample record register for demonstrating the interface.
+            </p>
+            <div class="table-wrap">
+              <table class="dt-table">
+                <thead>
+                  <tr>
+                    <th>Patient</th>
+                    <th>Sample record</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Aarav Sharma</td>
+                    <td>Previous diet plan</td>
+                    <td>Demo entry</td>
+                  </tr>
+                  <tr>
+                    <td>Ananya Patil</td>
+                    <td>Diet history summary</td>
+                    <td>Demo entry</td>
+                  </tr>
+                  <tr>
+                    <td>Rohan Deshmukh</td>
+                    <td>Nutrition intake form</td>
+                    <td>Demo entry</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="prototype-note">
+              These are fictional entries, not uploaded medical files.
+            </p>
+          </div>
+        </section>
+
+        <section id="dtReports" class="dietitian-section hidden">
+          <div class="panel">
+            <p class="eyebrow">PATIENT REPORTS</p>
+            <h2>Generate Report</h2>
+            <label for="dtReportPatient">Patient</label>
+            <select id="dtReportPatient">
+              <option value="p1">Aarav Sharma</option>
+              <option value="p2">Ananya Patil</option>
+              <option value="p3">Rohan Deshmukh</option>
+            </select>
+            <button type="button" id="dtGenerateReport" class="generate-button">
+              Prepare Report
+            </button>
+            <button type="button" id="dtPrintReport" class="print-button">
+              Print / Save as PDF
+            </button>
+            <div id="dtReportPreview" class="report-preview">
+              Select a patient and choose Prepare Report.
+            </div>
           </div>
         </section>
 

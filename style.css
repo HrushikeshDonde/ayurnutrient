@@ -851,3 +851,112 @@ footer {
     padding: 0;
   }
 }
+
+/* Dietitian dashboard additions */
+
+.patient-profile {
+  margin-top: 20px;
+  padding: 18px;
+  background: #f5f8f5;
+  border: 1px solid #dce5dd;
+  border-radius: 12px;
+}
+
+.patient-profile h3 {
+  margin-top: 0;
+}
+
+#dtPatientSelect,
+#dtPlanPatient,
+#dtConsultPatient,
+#dtReportPatient,
+#userRole {
+  display: block;
+  width: 100%;
+  margin: 8px 0 18px;
+  padding: 12px;
+  border: 1px solid #dce5dd;
+  border-radius: 8px;
+  background: white;
+  font: inherit;
+}
+
+#dtPlanNotes,
+#dtConsultNotes {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 8px 0 18px;
+  padding: 12px;
+  border: 1px solid #dce5dd;
+  border-radius: 8px;
+  font: inherit;
+  resize: vertical;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 18px;
+}
+
+.dt-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.dt-table th,
+.dt-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e4eae5;
+  text-align: left;
+  vertical-align: top;
+}
+
+.dt-table th {
+  background: #f3f7f3;
+}
+
+#dtPlanHistory,
+#dtConsultationHistory {
+  margin-top: 20px;
+}
+
+#dtReportPreview {
+  margin-top: 24px;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #dtReports,
+  #dtReports * {
+    visibility: visible;
+  }
+
+  #dtReports {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  #dtReports button,
+  #dtReports label,
+  #dtReports select,
+  .sidebar,
+  .topbar,
+  footer {
+    display: none !important;
+  }
+
+  #dtReports .panel {
+    border: none;
+    box-shadow: none;
+  }
+}

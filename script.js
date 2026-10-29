@@ -13,11 +13,12 @@ const pageTitles = {
   report: "Report",
 };
 
-// Demo login: fields are checked, but credentials are NOT authenticated.
+// Demo login only. This does not authenticate or authorize users.
 loginForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
   const email = document.getElementById("email").value.trim();
+  const role = document.getElementById("userRole").value;
 
   if (!email) {
     loginMessage.textContent = "Please enter your email address.";
@@ -27,13 +28,26 @@ loginForm.addEventListener("submit", function (event) {
   const firstName = email.split("@")[0].split(/[._-]/)[0];
   const displayName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
 
-  document.getElementById("patientName").textContent = displayName;
-  document.getElementById("welcomeName").textContent = displayName;
+  loginMessage.textContent = "";
 
-  loginPage.classList.add("hidden");
-  dashboardPage.classList.remove("hidden");
+  if (role === "dietitian") {
+    loginPage.classList.add("hidden");
+    dashboardPage.classList.add("hidden");
+    document.getElementById("dietitianDashboard").classList.remove("hidden");
 
-  showSection("overview");
+    document.getElementById("dietitianName").textContent = displayName;
+    document.getElementById("dietitianWelcome").textContent = displayName;
+    showDietitianSection("dtOverview");
+    renderDietitianData();
+  } else {
+    document.getElementById("dietitianDashboard").classList.add("hidden");
+    loginPage.classList.add("hidden");
+    dashboardPage.classList.remove("hidden");
+
+    document.getElementById("patientName").textContent = displayName;
+    document.getElementById("welcomeName").textContent = displayName;
+    showSection("overview");
+  }
 });
 
 function showSection(sectionName) {
@@ -656,3 +670,287 @@ document.getElementById("printReport")?.addEventListener("click", function () {
 
 // Populate the pages when the script loads.
 updateAnalysisAndReport();
+
+/* AyurNutrient: Dietitian dashboard demo */
+
+const demoPatients = {
+  p1: {
+    name: "Aarav Sharma",
+    age: 28,
+    preference: "Vegetarian",
+    goal: "Balanced eating",
+    bodyType: "Not entered",
+    history: "Sample previous diet plan",
+  },
+  p2: {
+    name: "Ananya Patil",
+    age: 34,
+    preference: "Vegan",
+    goal: "Everyday energy",
+    bodyType: "Not entered",
+    history: "Sample dietary history",
+  },
+  p3: {
+    name: "Rohan Deshmukh",
+    age: 41,
+    preference: "Eggetarian",
+    goal: "Weight management",
+    bodyType: "Not entered",
+    history: "Sample nutrition intake form",
+  },
+};
+
+const dtPlanKey = "ayurnutrient_demo_dietitian_plans_v1";
+const dtConsultKey = "ayurnutrient_demo_consultations_v1";
+
+function readDtList(key) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || "[]");
+    return Array.isArray(value) ? value : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveDtList(key, items) {
+  localStorage.setItem(key, JSON.stringify(items));
+}
+
+function showDietitianSection(sectionId) {
+  document.querySelectorAll(".dietitian-section").forEach(function (section) {
+    section.classList.add("hidden");
+  });
+
+  const target = document.getElementById(sectionId);
+  if (!target) return;
+
+  target.classList.remove("hidden");
+
+  document.querySelectorAll(".dietitian-nav").forEach(function (button) {
+    button.classList.toggle(
+      "active",
+      button.dataset.dietitianSection === sectionId,
+    );
+  });
+
+  const titles = {
+    dtOverview: "Overview",
+    dtPatients: "Patients",
+    dtPlans: "Diet Plans",
+    dtConsultations: "Consultations",
+    dtRecords: "Medical Records",
+    dtReports: "Reports",
+  };
+
+  document.getElementById("dietitianPageTitle").textContent =
+    titles[sectionId] || "Dietitian Dashboard";
+
+  renderDietitianData();
+}
+
+document.querySelectorAll(".dietitian-nav").forEach(function (button) {
+  button.addEventListener("click", function () {
+    showDietitianSection(button.dataset.dietitianSection);
+  });
+});
+
+document.querySelectorAll("[data-open-dt]").forEach(function (button) {
+  button.addEventListener("click", function () {
+    showDietitianSection(button.dataset.openDt);
+  });
+});
+
+function renderPatientProfile() {
+  const select = document.getElementById("dtPatientSelect");
+  const patient = demoPatients[select.value];
+  const profile = document.getElementById("dtPatientProfile");
+
+  profile.replaceChildren();
+
+  const heading = document.createElement("h3");
+  heading.textContent = patient.name;
+
+  const details = document.createElement("p");
+  details.textContent =
+    "Age: " +
+    patient.age +
+    " | Preference: " +
+    patient.preference +
+    " | Goal: " +
+    patient.goal;
+
+  const bodyType = document.createElement("p");
+  bodyType.textContent = "Ayurvedic body type: " + patient.bodyType;
+
+  const history = document.createElement("p");
+  history.textContent = "Available history: " + patient.history;
+
+  profile.append(heading, details, bodyType, history);
+}
+
+document
+  .getElementById("dtPatientSelect")
+  .addEventListener("change", renderPatientProfile);
+
+function renderHistory(containerId, items, emptyMessage) {
+  const container = document.getElementById(containerId);
+  container.replaceChildren();
+
+  if (!items.length) {
+    container.textContent = emptyMessage;
+    return;
+  }
+
+  items
+    .slice()
+    .reverse()
+    .forEach(function (item) {
+      const card = document.createElement("article");
+      card.className = "history-card";
+
+      const heading = document.createElement("h4");
+      heading.textContent = item.patientName;
+
+      const notes = document.createElement("p");
+      notes.textContent = item.notes;
+
+      const date = document.createElement("p");
+      date.textContent = "Saved: " + item.date;
+
+      card.append(heading, notes, date);
+      container.appendChild(card);
+    });
+}
+
+document.getElementById("dtSavePlan").addEventListener("click", function () {
+  const patientId = document.getElementById("dtPlanPatient").value;
+  const notes = document.getElementById("dtPlanNotes").value.trim();
+
+  if (!notes) {
+    alert("Please enter plan review notes first.");
+    return;
+  }
+
+  const plans = readDtList(dtPlanKey);
+  plans.push({
+    patientId,
+    patientName: demoPatients[patientId].name,
+    notes,
+    date: new Date().toLocaleString(),
+  });
+
+  saveDtList(dtPlanKey, plans);
+  document.getElementById("dtPlanNotes").value = "";
+  renderDietitianData();
+  alert("Demo plan review saved in this browser.");
+});
+
+document
+  .getElementById("dtSaveConsultation")
+  .addEventListener("click", function () {
+    const patientId = document.getElementById("dtConsultPatient").value;
+    const notes = document.getElementById("dtConsultNotes").value.trim();
+
+    if (!notes) {
+      alert("Please enter consultation notes first.");
+      return;
+    }
+
+    const consultations = readDtList(dtConsultKey);
+    consultations.push({
+      patientId,
+      patientName: demoPatients[patientId].name,
+      notes,
+      date: new Date().toLocaleString(),
+    });
+
+    saveDtList(dtConsultKey, consultations);
+    document.getElementById("dtConsultNotes").value = "";
+    renderDietitianData();
+    alert("Demo consultation saved in this browser.");
+  });
+
+function renderDietitianData() {
+  const patientSelect = document.getElementById("dtPatientSelect");
+  if (!patientSelect) return;
+
+  renderPatientProfile();
+
+  const plans = readDtList(dtPlanKey);
+  const consultations = readDtList(dtConsultKey);
+
+  renderHistory("dtPlanHistory", plans, "No plan reviews saved yet.");
+
+  renderHistory(
+    "dtConsultationHistory",
+    consultations,
+    "No consultations saved yet.",
+  );
+
+  document.getElementById("patientCount").textContent =
+    Object.keys(demoPatients).length;
+
+  document.getElementById("consultationCount").textContent =
+    consultations.length;
+
+  document.getElementById("recordCount").textContent =
+    Object.keys(demoPatients).length;
+}
+
+document
+  .getElementById("dtGenerateReport")
+  .addEventListener("click", function () {
+    const patientId = document.getElementById("dtReportPatient").value;
+    const patient = demoPatients[patientId];
+    const plans = readDtList(dtPlanKey).filter(
+      (item) => item.patientId === patientId,
+    );
+    const consultations = readDtList(dtConsultKey).filter(
+      (item) => item.patientId === patientId,
+    );
+    const preview = document.getElementById("dtReportPreview");
+
+    preview.replaceChildren();
+
+    function addReportLine(label, value) {
+      const paragraph = document.createElement("p");
+      const strong = document.createElement("strong");
+      strong.textContent = label + ": ";
+      paragraph.append(strong, document.createTextNode(value));
+      preview.appendChild(paragraph);
+    }
+
+    const heading = document.createElement("h3");
+    heading.textContent = "AyurNutrient — Demo Patient Report";
+    preview.appendChild(heading);
+
+    addReportLine("Patient", patient.name);
+    addReportLine("Age", String(patient.age));
+    addReportLine("Dietary preference", patient.preference);
+    addReportLine("Health goal", patient.goal);
+    addReportLine("Available sample history", patient.history);
+    addReportLine("Saved plan reviews", String(plans.length));
+    addReportLine("Saved consultations", String(consultations.length));
+    addReportLine("Report date", new Date().toLocaleDateString());
+
+    const note = document.createElement("p");
+    note.textContent =
+      "Sample report only. No real medical records or clinical analysis are included.";
+    preview.appendChild(note);
+  });
+
+document.getElementById("dtPrintReport").addEventListener("click", function () {
+  window.print();
+});
+
+document
+  .getElementById("dietitianLogoutButton")
+  .addEventListener("click", function () {
+    document.getElementById("dietitianDashboard").classList.add("hidden");
+    dashboardPage.classList.add("hidden");
+    loginPage.classList.remove("hidden");
+    loginForm.reset();
+    loginMessage.textContent = "";
+  });
+
+renderDietitianData();
