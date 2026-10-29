@@ -9,6 +9,8 @@ const pageTitles = {
   records: "Medical Records",
   recipes: "Recipes",
   consultations: "Consultations",
+  analysis: "Analysis",
+  report: "Report",
 };
 
 // Demo login: fields are checked, but credentials are NOT authenticated.
@@ -482,3 +484,175 @@ if (dietForm) {
   // Show saved plans when the page is opened or refreshed.
   renderDietHistory();
 }
+
+/* AyurNutrient: Analysis and Patient Report */
+
+const savedPlansKey = "ayurnutrient_saved_diet_plans_v1";
+
+function readSavedPlans() {
+  try {
+    const plans = JSON.parse(localStorage.getItem(savedPlansKey) || "[]");
+    return Array.isArray(plans) ? plans : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function getSelectedLabel(id, labels) {
+  const element = document.getElementById(id);
+
+  if (!element || !element.value) {
+    return "Not entered";
+  }
+
+  return labels[element.value] || "Not entered";
+}
+
+function updateAnalysisAndReport() {
+  const preferenceLabels = {
+    vegetarian: "Vegetarian",
+    vegan: "Vegan",
+    eggetarian: "Eggetarian",
+    nonvegetarian: "Non-vegetarian",
+  };
+
+  const goalLabels = {
+    balanced: "Balanced eating",
+    weight: "Weight management",
+    energy: "Everyday energy",
+  };
+
+  const bodyTypeLabels = {
+    "not-selected": "Not selected",
+    vata: "Vata",
+    pitta: "Pitta",
+    kapha: "Kapha",
+  };
+
+  const preference = getSelectedLabel("dietPreference", preferenceLabels);
+
+  const goal = getSelectedLabel("healthGoal", goalLabels);
+
+  const bodyType = getSelectedLabel("bodyType", bodyTypeLabels);
+
+  const patientName =
+    document.getElementById("patientName")?.textContent || "Patient";
+
+  // Update the Analysis page.
+  const analysisPreference = document.getElementById("analysisPreference");
+
+  const analysisGoal = document.getElementById("analysisGoal");
+
+  const analysisBodyType = document.getElementById("analysisBodyType");
+
+  if (analysisPreference) {
+    analysisPreference.textContent = preference;
+  }
+
+  if (analysisGoal) {
+    analysisGoal.textContent = goal;
+  }
+
+  if (analysisBodyType) {
+    analysisBodyType.textContent = bodyType;
+  }
+
+  // Update the Report page.
+  const reportPatientName = document.getElementById("reportPatientName");
+
+  const reportPreference = document.getElementById("reportPreference");
+
+  const reportGoal = document.getElementById("reportGoal");
+
+  const reportBodyType = document.getElementById("reportBodyType");
+
+  const reportDate = document.getElementById("reportDate");
+
+  if (reportPatientName) {
+    reportPatientName.textContent = patientName;
+  }
+
+  if (reportPreference) {
+    reportPreference.textContent = preference;
+  }
+
+  if (reportGoal) {
+    reportGoal.textContent = goal;
+  }
+
+  if (reportBodyType) {
+    reportBodyType.textContent = bodyType;
+  }
+
+  if (reportDate) {
+    reportDate.textContent = new Date().toLocaleDateString();
+  }
+
+  // Display saved plans on both pages.
+  const plans = readSavedPlans();
+
+  const analysisHistory = document.getElementById("analysisHistory");
+
+  const reportHistory = document.getElementById("reportDietHistory");
+
+  renderPlanSummary(analysisHistory, plans);
+  renderPlanSummary(reportHistory, plans);
+}
+
+function renderPlanSummary(container, plans) {
+  if (!container) return;
+
+  container.replaceChildren();
+
+  if (plans.length === 0) {
+    container.textContent =
+      "No saved diet plans available yet. Generate and save a plan first.";
+    return;
+  }
+
+  plans.forEach(function (plan, index) {
+    const card = document.createElement("article");
+    card.className = "history-card";
+
+    const title = document.createElement("h4");
+    title.textContent = plan.title || "Saved diet plan";
+
+    const details = document.createElement("p");
+    details.textContent = plan.details || "No plan details available.";
+
+    const savedDate = document.createElement("p");
+    savedDate.textContent = "Saved: " + (plan.savedAt || "Unknown date");
+
+    card.append(title, details, savedDate);
+    container.appendChild(card);
+  });
+}
+
+// Refresh the summary whenever the user opens Analysis or Report.
+const originalShowSection = showSection;
+
+showSection = function (sectionName) {
+  originalShowSection(sectionName);
+
+  if (sectionName === "analysis" || sectionName === "report") {
+    updateAnalysisAndReport();
+  }
+};
+
+// Generate / refresh the report.
+document
+  .getElementById("generateReport")
+  ?.addEventListener("click", function () {
+    updateAnalysisAndReport();
+
+    alert("Patient report updated. You can now print or save it as PDF.");
+  });
+
+// Print the report using the browser's print dialog.
+document.getElementById("printReport")?.addEventListener("click", function () {
+  updateAnalysisAndReport();
+  window.print();
+});
+
+// Populate the pages when the script loads.
+updateAnalysisAndReport();

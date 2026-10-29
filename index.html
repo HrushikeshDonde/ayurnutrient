@@ -79,6 +79,8 @@
         <button class="nav-link" data-section="consultations">
           ♡ Consultations
         </button>
+        <button class="nav-link" data-section="analysis">◉ Analysis</button>
+        <button class="nav-link" data-section="report">▤ Report</button>
 
         <button id="logoutButton" class="nav-link logout">↪ Log out</button>
       </aside>
@@ -341,6 +343,97 @@
               after database integration.
             </p>
             <div class="placeholder">No consultations available yet.</div>
+          </div>
+        </section>
+
+        <!-- Analysis Page -->
+        <section id="analysis" class="page-section hidden">
+          <div class="panel">
+            <p class="eyebrow">HEALTH INSIGHTS</p>
+            <h2>Patient Analysis</h2>
+            <p class="muted">
+              Review available diet preferences, health goals, Ayurvedic body
+              type, and saved diet plans in one place.
+            </p>
+
+            <div class="stats">
+              <article class="stat-card">
+                <p>Dietary Preference</p>
+                <h3 id="analysisPreference">Not entered</h3>
+              </article>
+
+              <article class="stat-card">
+                <p>Health Goal</p>
+                <h3 id="analysisGoal">Not entered</h3>
+              </article>
+
+              <article class="stat-card">
+                <p>Ayurvedic Body Type</p>
+                <h3 id="analysisBodyType">Not entered</h3>
+              </article>
+            </div>
+
+            <h3>Diet Plan History</h3>
+            <div id="analysisHistory" class="placeholder">
+              No saved diet plans available yet.
+            </div>
+
+            <p class="disclaimer">
+              This is a prototype summary of entered information, not a medical
+              diagnosis or a validated nutritional assessment.
+            </p>
+          </div>
+        </section>
+
+        <!-- Report Page -->
+        <section id="report" class="page-section hidden">
+          <div class="panel">
+            <p class="eyebrow">PATIENT DOCUMENTATION</p>
+            <h2>Generate Patient Report</h2>
+            <p class="muted">
+              Create a printable summary using the information currently
+              available in your AyurNutrient prototype.
+            </p>
+
+            <div id="reportPreview" class="report-preview">
+              <h3>AyurNutrient — Patient Report</h3>
+              <p>
+                <strong>Patient:</strong>
+                <span id="reportPatientName">Patient</span>
+              </p>
+              <p><strong>Report date:</strong> <span id="reportDate"></span></p>
+              <p>
+                <strong>Dietary preference:</strong>
+                <span id="reportPreference">Not entered</span>
+              </p>
+              <p>
+                <strong>Health goal:</strong>
+                <span id="reportGoal">Not entered</span>
+              </p>
+              <p>
+                <strong>Ayurvedic body type:</strong>
+                <span id="reportBodyType">Not entered</span>
+              </p>
+
+              <h3>Saved Diet Plans</h3>
+              <div id="reportDietHistory">
+                No saved diet plans available yet.
+              </div>
+            </div>
+
+            <div class="diet-actions">
+              <button type="button" id="generateReport" class="generate-button">
+                Generate Report
+              </button>
+              <button type="button" id="printReport" class="print-button">
+                Print / Save as PDF
+              </button>
+            </div>
+
+            <p class="prototype-note">
+              This report contains only information available in the current
+              prototype. Medical-record file contents are not analyzed.
+            </p>
           </div>
         </section>
 
